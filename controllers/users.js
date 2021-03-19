@@ -56,6 +56,13 @@ class UserController {
   static async getDetails (userId) {
     try {
       const userDetails = await User.findOne({ where: { userId: userId } });
+      if (!userDetails) {
+        return {
+          error: true,
+          code: 404,
+          message: 'No such user exists'
+        };
+      }
       return {
         error: false,
         code: 200,
