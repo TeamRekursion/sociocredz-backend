@@ -52,6 +52,25 @@ class UserController {
       };
     }
   }
+
+  static async getDetails (userId) {
+    try {
+      const userDetails = await User.findOne({ where: { userId: userId } });
+      return {
+        error: false,
+        code: 200,
+        message: 'User Details Fetched',
+        data: userDetails
+      };
+    } catch (err) {
+      logger.error(err.toString());
+      return {
+        error: true,
+        code: 500,
+        message: err.toString()
+      };
+    }
+  }
 }
 
 module.exports = UserController;
