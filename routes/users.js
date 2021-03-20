@@ -33,4 +33,10 @@ router.get('/campaigns/fetch', async (req, res) => {
   const response = await UserController.GetCampaigns()
   res.status(response.code).send(response)
 })
+
+router.get('/posts/fetch', async (req, res) => {
+  const response = await UserController.GetPosts()
+  res.status(response.code).send(response)
+})
+
 module.exports = router

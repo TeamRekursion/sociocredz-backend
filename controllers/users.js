@@ -8,6 +8,7 @@ const Points = require('../models/points')
 const Shop = require('../models/shop')
 const Ngo = require('../models/ngo')
 const Campaign = require('../models/campaign')
+const Post = require('../models/post')
 const { Sequelize } = require('sequelize')
 const { Op } = require('sequelize')
 
@@ -202,6 +203,25 @@ class UserController {
       return {
         code: 201,
         data: d
+      }
+    } catch (err) {
+      logger.error(err.toString())
+      return {
+        error: true,
+        code: 500,
+        message: err.toString()
+      }
+    }
+  }
+
+  static async GetPosts () {
+    try {
+      const posts = await Post.findAll()
+      return {
+        error: false,
+        code: 200,
+        data: posts,
+        message: 'Posts fetched'
       }
     } catch (err) {
       logger.error(err.toString())
