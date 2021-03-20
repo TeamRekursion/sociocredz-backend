@@ -29,4 +29,14 @@ router.post('/campaign/create', middlewares.isLoggedIn, async (req, res) => {
   res.status(response.code).send(response)
 })
 
+router.get('/posts/fetch', middlewares.isLoggedIn, async (req, res) => {
+  const response = await NgoController.fetchPost(req.decoded.id)
+  res.status(response.code).send(response)
+})
+
+router.get('/campaigns/fetch', middlewares.isLoggedIn, async (req, res) => {
+  const response = await NgoController.fetchCampaigns(req.decoded.id)
+  res.status(response.code).send(response)
+})
+
 module.exports = router

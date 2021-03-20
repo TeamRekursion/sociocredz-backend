@@ -2,9 +2,12 @@ const logger = require('../logging/logger')
 const uuid4 = require('uuid4')
 const Ngo = require('../models/ngo')
 const Campaign = require('../models/campaign')
+const Donation = require('../models/donation')
 const Post = require('../models/post')
 const jwt = require('jsonwebtoken')
 const admin = require('../firebase/firebase')
+const { Sequelize } = require('sequelize')
+const { Op } = require('sequelize')
 
 class NgoController {
   static async login (idToken) {
@@ -148,6 +151,72 @@ class NgoController {
         message: 'Post Created',
         code: 201,
         data: newPost
+      }
+    } catch (err) {
+      logger.error(err.toString())
+      return {
+        error: true,
+        code: 500,
+        message: err.toString()
+      }
+    }
+  }
+
+  static async fetchPost (ngoId) {
+    try {
+      const posts = await Post.findAll({ where: { ngoId } })
+      return {
+        error: false,
+        code: 200,
+        data: posts,
+        message: 'Posts fetched'
+      }
+    } catch (err) {
+      logger.error(err.toString())
+      return {
+        error: true,
+        code: 500,
+        message: err.toString()
+      }
+    }
+  }
+
+  static async fetchCampaigns (ngoId) {
+    try {
+      const campaigns = await Campaign.findAll({ where: { ngoId } })
+      const donations = await Donation.findAll({
+        where: { campaignId: { [Op.ne]: null } },
+        attributes: ['campaignId', [Sequelize.fn('SUM', Sequelize.col('amount')), 'amount']],
+        group: ['Donation.campaignId']
+      })
+      const v = {}
+      for (const i of donations) {
+        v[i.campaignId] = i.amount
+      }
+      console.log(v)
+      const d = campaigns.map(e => {
+        let amt
+        if (!v[e.campaignId]) {
+          amt = 0
+        } else {
+          amt = v[e.campaignId]
+        }
+        return {
+          campaignId: e.campaignId,
+          description: e.description,
+          title: e.title,
+          tagline: e.tagline,
+          moneyRequired: e.moneyRequired,
+          raisedAmount: amt,
+          createdAt: e.createdAt,
+          updatedAt: e.updatedAt
+        }
+      })
+      return {
+        error: false,
+        code: 200,
+        data: d,
+        message: 'Campaigns fetched'
       }
     } catch (err) {
       logger.error(err.toString())
