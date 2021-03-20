@@ -39,4 +39,9 @@ router.get('/posts/fetch', async (req, res) => {
   res.status(response.code).send(response)
 })
 
+router.get('/leaderboard', async (req, res) => {
+  const response = await UserController.LeaderBoard()
+  res.status(response.code).send(response)
+})
+
 module.exports = router

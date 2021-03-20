@@ -232,6 +232,40 @@ class UserController {
       }
     }
   }
+
+  static async LeaderBoard () {
+    try {
+      const mostDonations = await Donation.findAll({
+        where: { userId: { [Op.ne]: null } },
+        attributes: ['User.userId', [Sequelize.fn('SUM', Sequelize.col('amount')), 'amount']],
+        group: ['User.userId'],
+        include: [{ model: User, attributes: ['userName'] }],
+        order: [[Sequelize.fn('SUM', Sequelize.col('Donation.amount')), 'DESC']],
+        limit: 5
+      })
+      const recentDonations = await Donation.findAll({
+        where: { userId: { [Op.ne]: null } },
+        attributes: ['User.userId', [Sequelize.fn('SUM', Sequelize.col('amount')), 'amount']],
+        group: ['User.userId'],
+        include: [{ model: User, attributes: ['userName'] }],
+        order: [['Donation.createdAt', 'DESC']],
+        limit: 5
+      })
+      return {
+        code: 200,
+        message: 'fetched donations',
+        error: false,
+        recentDonations,
+        mostDonations
+      }
+    } catch (err) {
+      return {
+        error: true,
+        code: 500,
+        message: err.toString()
+      }
+    }
+  }
 }
 
 module.exports = UserController
