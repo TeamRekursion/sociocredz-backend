@@ -6,6 +6,7 @@ const logger = require('./logging/logger')
 const routes = require('./routes')
 const users = require('./routes/users')
 const ngo = require('./routes/ngo')
+const shop = require('./routes/shops')
 const db = require('./database/connection')
 
 const app = express()
@@ -39,5 +40,6 @@ app.use(morgan)
 app.use('/', routes)
 app.use('/api/v1/user', users)
 app.use('/api/v1/ngo', ngo)
+app.use('/api/v1/shop', shop)
 
 module.exports = app

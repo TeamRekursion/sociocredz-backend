@@ -1,6 +1,8 @@
 const logger = require('../logging/logger')
 const uuid4 = require('uuid4')
 const Ngo = require('../models/ngo')
+const Campaign = require('../models/campaign')
+const Post = require('../models/post')
 const jwt = require('jsonwebtoken')
 const admin = require('../firebase/firebase')
 
@@ -93,6 +95,59 @@ class NgoController {
         error: false,
         code: 200,
         message: 'Ngo Details Updated'
+      }
+    } catch (err) {
+      logger.error(err.toString())
+      return {
+        error: true,
+        code: 500,
+        message: err.toString()
+      }
+    }
+  }
+
+  static async createCampaign (ngoId, tagline, campaignDescription, moneyRequired, title) {
+    try {
+      const campaign = {
+        campaignId: uuid4(),
+        ngoId,
+        tagline,
+        campaignDescription,
+        moneyRequired,
+        title
+      }
+      const newCampaign = await Campaign.create(campaign)
+      return {
+        error: true,
+        message: 'Campaign Created',
+        code: 201,
+        data: newCampaign
+      }
+    } catch (err) {
+      logger.error(err.toString())
+      return {
+        error: true,
+        code: 500,
+        message: err.toString()
+      }
+    }
+  }
+
+  static async createPost (ngoId, postTitle, postDescription, postPhotoUrl) {
+    try {
+      const post = {
+        postId: uuid4(),
+        ngoId,
+        postTitle,
+        postDescription,
+        postPhotoUrl
+      }
+      const newPost = await Post.create(post)
+      return {
+        error: true,
+        message: 'Post Created',
+        code: 201,
+        data: newPost
       }
     } catch (err) {
       logger.error(err.toString())

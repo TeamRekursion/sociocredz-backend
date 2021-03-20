@@ -17,4 +17,16 @@ router.patch('/update', middlewares.isLoggedIn, async (req, res) => {
   res.status(response.code).send(response)
 })
 
+router.post('/post/create', middlewares.isLoggedIn, async (req, res) => {
+  const { postTitle, postDescription, postPhotoUrl } = req.body
+  const response = await NgoController.createPost(req.decoded.id, postTitle, postDescription, postPhotoUrl)
+  res.status(response.code).send(response)
+})
+
+router.post('/campaign/create', middlewares.isLoggedIn, async (req, res) => {
+  const { tagline, campaignDescription, moneyRequired, title } = req.body
+  const response = await NgoController.createCampaign(req.decoded.id, tagline, campaignDescription, moneyRequired, title)
+  res.status(response.code).send(response)
+})
+
 module.exports = router
