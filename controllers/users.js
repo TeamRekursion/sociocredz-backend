@@ -245,10 +245,9 @@ class UserController {
       })
       const recentDonations = await Donation.findAll({
         where: { userId: { [Op.ne]: null } },
-        attributes: ['User.userId', [Sequelize.fn('SUM', Sequelize.col('amount')), 'amount']],
-        group: ['User.userId'],
+        attributes: ['User.userId', 'amount', 'createdAt'],
         include: [{ model: User, attributes: ['userName'] }],
-        order: [['Donation.createdAt', 'DESC']],
+        order: [['createdAt', 'DESC']],
         limit: 5
       })
       return {
@@ -259,6 +258,7 @@ class UserController {
         mostDonations
       }
     } catch (err) {
+      console.log(err)
       return {
         error: true,
         code: 500,
