@@ -8,7 +8,7 @@ const schema = {
   },
   ngoName: {
     type: sequelize.STRING(255),
-    allowNull: true
+    defaultValue: ''
   },
   email: {
     type: sequelize.STRING(255),
@@ -22,7 +22,7 @@ const schema = {
   },
   ngoDescription: {
     type: sequelize.STRING(255),
-    allowNull: true
+    defaultValue: ''
   }
 }
 

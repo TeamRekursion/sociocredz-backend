@@ -1,14 +1,8 @@
-const admin = require('firebase-admin')
+const admin = require('../firebase/firebase')
 const logger = require('../logging/logger')
 const uuid4 = require('uuid4')
 const User = require('../models/users')
 const jwt = require('jsonwebtoken')
-
-const serviceAccount = require('../firebase.json')
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount)
-})
 
 class UserController {
   static async login (idToken) {
