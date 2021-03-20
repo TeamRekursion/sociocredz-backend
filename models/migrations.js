@@ -9,6 +9,7 @@ exports.migrations = async () => {
     const Donation = require('./donation')
 
     Points.belongsTo(Shop, { foreignKey: 'shopId' })
+    Donation.belongsTo(Ngo, { foreignKey: 'ngoId' })
     await User.sync({ alter: true })
     await Ngo.sync({ alter: true })
     await Shop.sync({ alter: true })

@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken')
 const Donation = require('../models/donation')
 const Points = require('../models/points')
 const Shop = require('../models/shop')
+const Ngo = require('../models/ngo')
 
 class UserController {
   static async login (idToken) {
@@ -79,13 +80,63 @@ class UserController {
 
   static async getTransactions (userId) {
     try {
-      const donations = await Donation.findAll({ where: { userId: userId } })
-      const points = await Points.findAll({ where: { userId: userId }, include: [{ model: Shop, attributes: ['shopName'] }] })
+      const donations = await Donation.findAll({ where: { userId: userId }, include: [{ model: Ngo, attributes: ['ngoName'] }], order: [['createdAt', 'DESC']] })
+      const points = await Points.findAll({ where: { userId: userId }, include: [{ model: Shop, attributes: ['shopName', 'shopAddress'] }], order: [['createdAt', 'DESC']] })
+
       return {
         code: 200,
         error: false,
         donations,
         points
+      }
+    } catch (err) {
+      logger.error(err.toString())
+      return {
+        error: true,
+        code: 500,
+        message: err.toString()
+      }
+    }
+  }
+
+  static async GetRecent (userId) {
+    try {
+      const donations = await Donation.findAll({ where: { userId: userId }, include: [{ model: Ngo, attributes: ['ngoName'] }], limit: 5, order: [['createdAt', 'DESC']] })
+      const points = await Points.findAll({ where: { userId: userId }, include: [{ model: Shop, attributes: ['shopName', 'shopAddress'] }], limit: 5, order: [['createdAt', 'DESC']] })
+
+      const d = donations.map(e => {
+        return {
+          name: e.Ngo.ngoName,
+          desc: e.description,
+          amount: e.amount,
+          positive: false,
+          ts: new Date(e.createdAt)
+        }
+      })
+
+      const p = points.map(e => {
+        return {
+          name: e.Shop.shopName,
+          desc: e.Shop.shopAddress,
+          amount: e.amount,
+          positive: true,
+          ts: new Date(e.createdAt)
+        }
+      })
+      const final = [
+        ...p,
+        ...d
+      ]
+
+      final.sort((a, b) => {
+        if (a > b) { return -1 } else { return 1 }
+      })
+
+      return {
+        code: 200,
+        error: false,
+        message: 'fetched recent transactions',
+        data: final
       }
     } catch (err) {
       logger.error(err.toString())
