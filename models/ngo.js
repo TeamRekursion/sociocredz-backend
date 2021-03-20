@@ -2,11 +2,11 @@ const sequelize = require('sequelize')
 const db = require('../database/connection')
 
 const schema = {
-  userId: {
+  ngoId: {
     type: sequelize.UUID,
     primaryKey: true
   },
-  userName: {
+  ngoName: {
     type: sequelize.STRING(255),
     allowNull: true
   },
@@ -15,20 +15,20 @@ const schema = {
     allowNull: true,
     isEmail: true
   },
-  userProfileUrl: {
+  profileUrl: {
     type: sequelize.STRING(255),
     isUrl: true,
     allowNull: true
   },
-  credits: {
-    type: sequelize.FLOAT,
-    defaultValue: 0.0
+  ngoDescription: {
+    type: sequelize.STRING(255),
+    allowNull: true
   }
 }
 
 const options = {
   timestamps: true
 }
-const User = db.define('User', schema, options)
+const Ngo = db.define('Ngo', schema, options)
 
-module.exports = User
+module.exports = Ngo

@@ -2,33 +2,35 @@ const sequelize = require('sequelize')
 const db = require('../database/connection')
 
 const schema = {
-  userId: {
+  postId: {
     type: sequelize.UUID,
     primaryKey: true
   },
-  userName: {
+  postTitle: {
     type: sequelize.STRING(255),
     allowNull: true
   },
-  email: {
+  postDescription: {
     type: sequelize.STRING(255),
-    allowNull: true,
-    isEmail: true
-  },
-  userProfileUrl: {
-    type: sequelize.STRING(255),
-    isUrl: true,
     allowNull: true
   },
-  credits: {
-    type: sequelize.FLOAT,
-    defaultValue: 0.0
+  postPhotoUrl: {
+    type: sequelize.STRING(255),
+    allowNull: true
+  },
+  ngoId: {
+    type: sequelize.UUID,
+    allowNull: false,
+    references: {
+      model: 'Ngos',
+      key: 'ngoId'
+    }
   }
 }
 
 const options = {
   timestamps: true
 }
-const User = db.define('User', schema, options)
+const Post = db.define('Post', schema, options)
 
-module.exports = User
+module.exports = Post

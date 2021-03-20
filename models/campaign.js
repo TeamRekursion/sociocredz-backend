@@ -2,33 +2,39 @@ const sequelize = require('sequelize')
 const db = require('../database/connection')
 
 const schema = {
-  userId: {
+  campaignId: {
     type: sequelize.UUID,
     primaryKey: true
   },
-  userName: {
+  title: {
     type: sequelize.STRING(255),
     allowNull: true
   },
-  email: {
+  tagline: {
     type: sequelize.STRING(255),
-    allowNull: true,
-    isEmail: true
-  },
-  userProfileUrl: {
-    type: sequelize.STRING(255),
-    isUrl: true,
     allowNull: true
   },
-  credits: {
+  campaignDescription: {
+    type: sequelize.STRING(255),
+    allowNull: true
+  },
+  moneyRequired: {
     type: sequelize.FLOAT,
-    defaultValue: 0.0
+    allowNull: true
+  },
+  ngoId: {
+    type: sequelize.UUID,
+    allowNull: false,
+    references: {
+      model: 'Ngos',
+      key: 'ngoId'
+    }
   }
 }
 
 const options = {
   timestamps: true
 }
-const User = db.define('User', schema, options)
+const Campaign = db.define('Campaign', schema, options)
 
-module.exports = User
+module.exports = Campaign

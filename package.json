@@ -18,7 +18,7 @@
   "license": "GPL-3.0-or-later",
   "scripts": {
     "test": "semistandard && nyc --reporter=lcov mocha tests/*",
-    "lint": "semistandard --fix",
+    "lint": "standard --fix",
     "dev": "nodemon server.js",
     "start": "node server.js",
     "coverage": "codecov"
@@ -47,7 +47,7 @@
     "mocha": "^7.1.2",
     "nodemon": "^2.0.7",
     "nyc": "^15.0.0",
-    "semistandard": "^14.2.0"
+    "standard": "^16.0.3"
   },
   "husky": {
     "hooks": {
