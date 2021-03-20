@@ -1,5 +1,6 @@
 const express = require('express')
 const compression = require('compression')
+const cors = require('cors')
 
 const morgan = require('./logging/morgan')
 const logger = require('./logging/logger')
@@ -32,6 +33,7 @@ db.authenticate()
 // Middlewares
 app.use(express.json())
 app.use(compression())
+app.use(cors())
 
 // Logging
 app.use(morgan)
