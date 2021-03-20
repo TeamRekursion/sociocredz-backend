@@ -18,13 +18,19 @@ router.post('/donate', middlewares.isLoggedIn, async (req, res) => {
   const response = await DonationController.donateRandomNGO(req.decoded.id, campaignId, amount, description)
   res.status(response.code).send(response)
 })
+
 router.get('/transactions', middlewares.isLoggedIn, async (req, res) => {
   const response = await UserController.getTransactions(req.decoded.id)
   res.status(response.code).send(response)
 })
+
 router.get('/transactions/recent', middlewares.isLoggedIn, async (req, res) => {
   const response = await UserController.GetRecent(req.decoded.id)
   res.status(response.code).send(response)
 })
 
+router.get('/campaigns/fetch', async (req, res) => {
+  const response = await UserController.GetCampaigns()
+  res.status(response.code).send(response)
+})
 module.exports = router

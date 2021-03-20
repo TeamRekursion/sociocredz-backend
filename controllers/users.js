@@ -7,6 +7,9 @@ const Donation = require('../models/donation')
 const Points = require('../models/points')
 const Shop = require('../models/shop')
 const Ngo = require('../models/ngo')
+const Campaign = require('../models/campaign')
+const { Sequelize } = require('sequelize')
+const { Op } = require('sequelize')
 
 class UserController {
   static async login (idToken) {
@@ -80,8 +83,16 @@ class UserController {
 
   static async getTransactions (userId) {
     try {
-      const donations = await Donation.findAll({ where: { userId: userId }, include: [{ model: Ngo, attributes: ['ngoName'] }], order: [['createdAt', 'DESC']] })
-      const points = await Points.findAll({ where: { userId: userId }, include: [{ model: Shop, attributes: ['shopName', 'shopAddress'] }], order: [['createdAt', 'DESC']] })
+      const donations = await Donation.findAll({
+        where: { userId: userId },
+        include: [{ model: Ngo, attributes: ['ngoName'] }],
+        order: [['createdAt', 'DESC']]
+      })
+      const points = await Points.findAll({
+        where: { userId: userId },
+        include: [{ model: Shop, attributes: ['shopName', 'shopAddress'] }],
+        order: [['createdAt', 'DESC']]
+      })
 
       return {
         code: 200,
@@ -101,8 +112,18 @@ class UserController {
 
   static async GetRecent (userId) {
     try {
-      const donations = await Donation.findAll({ where: { userId: userId }, include: [{ model: Ngo, attributes: ['ngoName'] }], limit: 5, order: [['createdAt', 'DESC']] })
-      const points = await Points.findAll({ where: { userId: userId }, include: [{ model: Shop, attributes: ['shopName', 'shopAddress'] }], limit: 5, order: [['createdAt', 'DESC']] })
+      const donations = await Donation.findAll({
+        where: { userId: userId },
+        include: [{ model: Ngo, attributes: ['ngoName'] }],
+        limit: 5,
+        order: [['createdAt', 'DESC']]
+      })
+      const points = await Points.findAll({
+        where: { userId: userId },
+        include: [{ model: Shop, attributes: ['shopName', 'shopAddress'] }],
+        limit: 5,
+        order: [['createdAt', 'DESC']]
+      })
 
       const d = donations.map(e => {
         return {
@@ -137,6 +158,50 @@ class UserController {
         error: false,
         message: 'fetched recent transactions',
         data: final
+      }
+    } catch (err) {
+      logger.error(err.toString())
+      return {
+        error: true,
+        code: 500,
+        message: err.toString()
+      }
+    }
+  }
+
+  static async GetCampaigns () {
+    try {
+      const campaigns = await Campaign.findAll({
+        include: [{ model: Ngo, attributes: ['ngoName'] }],
+        order: [['createdAt', 'DESC']]
+      })
+      const donations = await Donation.findAll({
+        where: { campaignId: { [Op.ne]: null } },
+        attributes: ['campaignId', [Sequelize.fn('SUM', Sequelize.col('amount')), 'amount']],
+        group: ['Donation.campaignId']
+      })
+      const v = {}
+      for (const i of donations) {
+        v[i.campaignId] = i.amount
+      }
+      console.log(v)
+      const d = campaigns.map(e => {
+        let amt
+        if (!v[e.campaignId]) {
+          amt = 0
+        } else {
+          amt = v[e.campaignId]
+        }
+        return {
+          ngoName: e.Ngo.ngoName,
+          tagline: e.tagline,
+          moneyRequired: e.moneyRequired,
+          raisedAmount: amt
+        }
+      })
+      return {
+        code: 201,
+        data: d
       }
     } catch (err) {
       logger.error(err.toString())

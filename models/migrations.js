@@ -10,6 +10,7 @@ exports.migrations = async () => {
 
     Points.belongsTo(Shop, { foreignKey: 'shopId' })
     Donation.belongsTo(Ngo, { foreignKey: 'ngoId' })
+    Campaign.belongsTo(Ngo, { foreignKey: 'ngoId' })
     await User.sync({ alter: true })
     await Ngo.sync({ alter: true })
     await Shop.sync({ alter: true })
