@@ -30,5 +30,4 @@ const options = {
   timestamps: true
 }
 const User = db.define('User', schema, options)
-
 module.exports = User

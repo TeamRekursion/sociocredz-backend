@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const UserController = require('../controllers/users')
+const DonationController = require('../controllers/donation')
 const middlewares = require('../middlewares/auth')
 
 router.post('/login', async (req, res) => {
@@ -9,6 +10,12 @@ router.post('/login', async (req, res) => {
 
 router.get('/details', middlewares.isLoggedIn, async (req, res) => {
   const response = await UserController.getDetails(req.decoded.id)
+  res.status(response.code).send(response)
+})
+
+router.post('/donate', middlewares.isLoggedIn, async (req, res) => {
+  const { campaignId, amount, description } = req.body
+  const response = await DonationController.donateRandomNGO(req.decoded.id, campaignId, amount, description)
   res.status(response.code).send(response)
 })
 
