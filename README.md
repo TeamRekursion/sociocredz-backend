@@ -1,94 +1,54 @@
 <p align="center">
-	<img src="https://user-images.githubusercontent.com/30529572/92081025-fabe6f00-edb1-11ea-9169-4a8a61a5dd45.png" />
-	<h2 align="center">Node.JS template</h2>
-	<h4 align="center">A template to quickstart Node.JS REST APIs<h4>
+	<img src="assets/socioCredz.jpeg">
+    <h2 align="center">SocioCredz</h2>
+    <h5 align = "center"> Have you ever wanted to do something for the social cause but lacked the time and the means to do it? <br>Don’t worry SocioCredz is here to help you. SocioCredz will help you to provide education, and food, etc<br> to the people in need without you even spending a single penny from your pocket!
+
 </p>
 
-![Tests](https://github.com/GDGVIT/node-template/workflows/Tests/badge.svg)
-[![codecov](https://codecov.io/gh/GDGVIT/node-template/branch/master/graph/badge.svg)](https://codecov.io/gh/GDGVIT/node-template)
-[![GitHub Super-Linter](https://github.com/GDGVIT/node-template/workflows/Lint%20Code%20Base/badge.svg)](https://github.com/marketplace/actions/super-linter)
+### What is the idea?
+We often go to stores in the mall and after purchasing things, most of the time we link our <br> mobile
+number with the company, and according to the shopping amount certain points are <br>added to our number which can be redeemed whenever a user wants. 
+
+We aim to tie up with these companies so that instead of adding these points to the user’s <br>company account, the user can choose to add these points to our app ‘SocioCredz’. Now, what<br> can the users do with these credits? 
+
+We offer various services such as distributing food, providing books, and proper sanitation to <br>the needy. Suppose distributing food costs 100 credits, the user can use his/her available<br> credits to select this service.
+
+Now you might wonder how will the food, books, etc actually be distributed to the people in <br> need. We aim to tie up with NGOs for this purpose. We have made a frontend portal for the <br>NGOs to register themselves with us. The services selected by the user will be directed to the<br> NGOs that have the least number of requests so that there is no delay of service to the<br> people in need.  The NGOs can even start a campaign on our app to raise funds.
+
+Lastly, how can the user trust us that service is delivered to those in need? Once the service is<br> completed by a representative of the NGO, he/she will upload a video on the portal which will<br> be visible to the user on the application as well.
+
+### Backend Documentation
+<ul>
+<li><h5><a href="https://dscv.it/ket52">Backend Documentation Link</a></h5>
+</ul>
+
+### Links to other repositories
+<ul>
+<li><h5><a href="https://github.com/TeamRekursion/sociocredz-frontend">Frontend Repository</a></h5>
+<li><h5><a href="https://github.com/TeamRekursion/sociocredz-app">Mobile Application Repository</a></h5>
+</ul>
+
+### Designs Link
+<ul>
+<li> <h5><a href="https://www.figma.com/file/PqsI2E8BCmN7eWNX12j0ca/SocioCredz?node-id=16%3A130"> Figma Link
+</ul>
 
 
-## Functionality
+### Tech Stack Used:
+<img src="https://img.shields.io/badge/javascript%20-%23323330.svg?&style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/><br>
+<img src="https://img.shields.io/badge/node.js%20-%2343853D.svg?&style=for-the-badge&logo=node.js&logoColor=white"/><br>
+<img src="https://img.shields.io/badge/PostGres-%234ea94b.svg?&style=for-the-badge&logo=postgreSQL&logoColor=white"/><br>
+<img src="https://img.shields.io/badge/Firebase-%234ea94b.svg?&style=for-the-badge&logo=firebase&logoColor=white"/>
 
-- Idiomatic and configurable logging
-- Response compression
-- Sane linting and styling guidelines
-- Continuous integration using github actions
-- Tests
-- Code coverage
 
-## Running the server
+## Team Members
+- Nirmit Jatana
+- Md Hishaam Akhtar
+- Rithik Jain
+- Mayank Kumar
+- Chanakya Vivek Kapoor
 
-```bash
-npm start
-```
 
-**Note**: This will run a server in the development environment.
-For information on deploying an express application to production, take a look [here](https://expressjs.com/en/advanced/best-practice-performance.html).
-
-## Logging
-
-This directory has 2 files.
-
-- `logger.js` exports a winston object which we use for logging. You should modify logger.js to customize your logging configuration.
-- `morgan.js` exports a pre-configured morgan object to write logs using a stream to winston. It is used to intercept http requests and log the request and response details.
-  For more details, visit the official page for [morgan](https://www.npmjs.com/package/morgan).
-
-## Routes
-
-Directory for defining routes. I don't think this needs more explanation.
-
-## Additional Information
-
-- On Linux, UNIX and Mac, running the following command adds ./node_modules/.bin to the path.
-
-  ```bash
-  source ./activate
-  ```
-
-  This makes it easier to run locally installed command packages.
-  This won't be required in many IDEs like Webstorm, but we thought it's a good idea to include it anyway.
-
-- [standard.js](https://npmjs.com/package/standard) has been added as the default linting and styling tool.
-
-  Usage:
-
-  ```bash
-  npm run lint
-  ```
-
-  Formats the entire project, and logs out anything it couldn't fix.
-
-- [mocha](https://npmjs.com/package/mocha) is used for testing and [chai](https://npmjs.com/package/chai) is used for assertion.
-  [chai-http](https://npmjs.com/package/chai) is used to test http endpoints.
-
-  Run all tests using:
-
-  ```bash
-  npm test
-  ```
-
-- [nyc](https://npmjs.com/package/nyc) is used as the default coverage tool.
-
-  Upload coverage report to codecov using:
-
-  ```bash
-  npm run coverage
-  ```
-
-  Note: You will need to add the `CODECOV_TOKEN` to your repository secrets for GitHub actions to work well, and export it as an environment variable to run it locally.
-
-## Dependencies
-
-| Dependency                                           | Usage                                                              |
-| ---------------------------------------------------- | ------------------------------------------------------------------ |
-| [body-parser](https://npm.com/package/body-parser)   | POST body parsing middleware. Adds body object to incoming request |
-| [compression](https://npmjs.com/package/compression) | Response compression middleware                                    |
-| [express](https://npmjs.com/package/express)         | Express REST API framework                                         |  |
-| [morgan](https://npmjs.com/package/morgan)           | HTTP request logger                                                |
-| [winston](https://npmjs.com/package/winston)         | General purpose logger for the application                         |
-| [nyc](https://npmjs.com/package/nyc)                 | Code Coverage tool                                                 |
-| [standard](https://npmjs.com/package/standard)       | Linting and styling tool.                                          |
-| [chai](https://npmjs.com/package/chai)               | Assertion Library                                                  |
-| [chai-http](https://npmjs.com/package/chai-http)     | Middleware for chai to test http endpoints                         |
+<p align="center">
+	Made with :heart: by Team Rekursion</a>
+</p>
