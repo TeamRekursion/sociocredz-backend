@@ -3,6 +3,8 @@ const logger = require('../logging/logger')
 const uuid4 = require('uuid4')
 const User = require('../models/users')
 const jwt = require('jsonwebtoken')
+const Donation = require('../models/donation')
+const Points = require('../models/points')
 
 class UserController {
   static async login (idToken) {
@@ -63,6 +65,26 @@ class UserController {
         code: 200,
         message: 'User Details Fetched',
         data: userDetails
+      }
+    } catch (err) {
+      logger.error(err.toString())
+      return {
+        error: true,
+        code: 500,
+        message: err.toString()
+      }
+    }
+  }
+
+  static async getTransactions (userId) {
+    try {
+      const donations = await Donation.findAll({ where: { userId: userId } })
+      const points = await Points.findAll({ where: { userId: userId }, include: [{ model: 'Shop', attributes: ['shopName'] }] })
+      return {
+        code: 200,
+        error: false,
+        donations,
+        points
       }
     } catch (err) {
       logger.error(err.toString())
