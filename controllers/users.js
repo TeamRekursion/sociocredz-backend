@@ -5,6 +5,7 @@ const User = require('../models/users')
 const jwt = require('jsonwebtoken')
 const Donation = require('../models/donation')
 const Points = require('../models/points')
+const Shop = require('../models/shop')
 
 class UserController {
   static async login (idToken) {
@@ -79,7 +80,7 @@ class UserController {
   static async getTransactions (userId) {
     try {
       const donations = await Donation.findAll({ where: { userId: userId } })
-      const points = await Points.findAll({ where: { userId: userId }, include: [{ model: 'Shop', attributes: ['shopName'] }] })
+      const points = await Points.findAll({ where: { userId: userId }, include: [{ model: Shop, attributes: ['shopName'] }] })
       return {
         code: 200,
         error: false,
