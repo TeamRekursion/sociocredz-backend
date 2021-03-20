@@ -44,4 +44,13 @@ router.post('/proof/upload', middlewares.isLoggedIn, async (req, res) => {
   res.status(response.code).send(response)
 })
 
+router.get('/donations/total', middlewares.isLoggedIn, async (req, res) => {
+  const response = await NgoController.totalDonationsOfNGO(req.decoded.id)
+  res.status(response.code).send(response)
+})
+router.get('/donations', middlewares.isLoggedIn, async (req, res) => {
+  const response = await NgoController.donationsOfNGO(req.decoded.id)
+  res.status(response.code).send(response)
+})
+
 module.exports = router

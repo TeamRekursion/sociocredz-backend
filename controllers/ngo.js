@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken')
 const admin = require('../firebase/firebase')
 const { Sequelize } = require('sequelize')
 const { Op } = require('sequelize')
+const User = require('../models/users')
 
 class NgoController {
   static async login (idToken) {
@@ -238,6 +239,50 @@ class NgoController {
       }
     } catch (err) {
       logger.error(err.toString())
+      return {
+        error: true,
+        code: 500,
+        message: err.toString()
+      }
+    }
+  }
+
+  static async totalDonationsOfNGO (ngoId) {
+    try {
+      const donations = await Donation.findOne({
+        attributes: ['ngoId', [Sequelize.fn('SUM', Sequelize.col('amount')), 'amount'], [Sequelize.fn('COUNT', Sequelize.col('amount')), 'count']],
+        group: ['ngoId'],
+        having: { ngoId: ngoId }
+      })
+      return {
+        code: 200,
+        message: 'success',
+        error: false,
+        data: donations
+      }
+    } catch (err) {
+      return {
+        error: true,
+        code: 500,
+        message: err.toString()
+      }
+    }
+  }
+
+  static async donationsOfNGO (ngoId) {
+    try {
+      const donations = await Donation.findAll({
+        attributes: ['ngoId', 'amount'],
+        include: [{ model: User, attributes: ['userName'] }],
+        where: { ngoId: ngoId }
+      })
+      return {
+        code: 200,
+        message: 'success',
+        error: false,
+        data: donations
+      }
+    } catch (err) {
       return {
         error: true,
         code: 500,
