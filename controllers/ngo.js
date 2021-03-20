@@ -227,6 +227,24 @@ class NgoController {
       }
     }
   }
+
+  static async proofUpload (proofVideoUrl, donationIds) {
+    try {
+      await Donation.update({ proofVideoUrl }, { where: { donationId: donationIds } })
+      return {
+        error: false,
+        code: 200,
+        message: 'Uploaded Proof'
+      }
+    } catch (err) {
+      logger.error(err.toString())
+      return {
+        error: true,
+        code: 500,
+        message: err.toString()
+      }
+    }
+  }
 }
 
 module.exports = NgoController

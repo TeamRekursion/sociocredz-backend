@@ -39,4 +39,9 @@ router.get('/campaigns/fetch', middlewares.isLoggedIn, async (req, res) => {
   res.status(response.code).send(response)
 })
 
+router.post('/proof/upload', middlewares.isLoggedIn, async (req, res) => {
+  const response = await NgoController.proofUpload(req.body.proofVideoUrl, req.body.donations)
+  res.status(response.code).send(response)
+})
+
 module.exports = router
