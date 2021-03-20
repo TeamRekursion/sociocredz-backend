@@ -1,12 +1,21 @@
 exports.migrations = async () => {
   try {
-    await require('./users').sync({ alter: true })
-    await require('./ngo').sync({ alter: true })
-    await require('./shop').sync({ alter: true })
-    await require('./post').sync({ alter: true })
-    await require('./campaign').sync({ alter: true })
-    await require('./points').sync({ alter: true })
-    await require('./donation').sync({ alter: true })
+    const User = require('./users')
+    const Ngo = require('./ngo')
+    const Shop = require('./shop')
+    const Post = require('./post')
+    const Campaign = require('./campaign')
+    const Points = require('./points')
+    const Donation = require('./donation')
+
+    Points.belongsTo(Shop, { foreignKey: 'shopId' })
+    await User.sync({ alter: true })
+    await Ngo.sync({ alter: true })
+    await Shop.sync({ alter: true })
+    await Post.sync({ alter: true })
+    await Campaign.sync({ alter: true })
+    await Points.sync({ alter: true })
+    await Donation.sync({ alter: true })
   } catch (err) {
     throw new Error(err)
   }
