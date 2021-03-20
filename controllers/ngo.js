@@ -272,7 +272,7 @@ class NgoController {
   static async donationsOfNGO (ngoId) {
     try {
       const donations = await Donation.findAll({
-        attributes: ['ngoId', 'amount'],
+        attributes: ['donationId', 'ngoId', 'amount'],
         include: [{ model: User, attributes: ['userName'] }],
         where: { ngoId: ngoId }
       })
