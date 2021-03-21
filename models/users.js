@@ -22,7 +22,7 @@ const schema = {
   },
   credits: {
     type: sequelize.FLOAT,
-    defaultValue: 0.0
+    defaultValue: 5000.0
   }
 }
 
